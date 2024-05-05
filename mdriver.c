@@ -605,32 +605,31 @@ static int eval_mm_valid(trace_t *trace, int tracenum, range_t **ranges)
 
 	    /* Call the student's malloc */
 	    if ((p = mm_malloc(size)) == NULL) {
+
 		malloc_error(tracenum, i, "mm_malloc failed.");
 		return 0;
 	    }
-	    
 	    /* 
 	     * Test the range of the new block for correctness and add it 
 	     * to the range list if OK. The block must be  be aligned properly,
 	     * and must not overlap any currently allocated block. 
 	     */ 
 	    if (add_range(ranges, p, size, tracenum, i) == 0)
+		
 		return 0;
-	    
 	    /* ADDED: cgw
 	     * fill range with low byte of index.  This will be used later
 	     * if we realloc the block and wish to make sure that the old
 	     * data was copied to the new block
 	     */
 	    memset(p, index & 0xFF, size);
-
+		
 	    /* Remember region */
 	    trace->blocks[index] = p;
 	    trace->block_sizes[index] = size;
 	    break;
-
+		printf("631");
         case REALLOC: /* mm_realloc */
-	    
 	    /* Call the student's realloc */
 	    oldp = trace->blocks[index];
 	    if ((newp = mm_realloc(oldp, size)) == NULL) {
